@@ -1,0 +1,31 @@
+{
+  "description": "Jump to your saved tabs in a jungle of other tabs! This extension lets you create a modifiable list of tabs that you can jump to.",
+  "manifest_version": 2,
+  "name": "Tab Jump List",
+  "version": "1.0.0",
+  "homepage_url": "https://github.com/tpamula/webextension-tab-jump-list",
+  "permissions": [
+    "tabs"
+  ],
+  "browser_action": {
+    "default_title": "Tab Jump List",
+    "default_popup": "popup.html",
+    "default_icon": "icons/dark/icon-32.png"
+  },
+  "background": {
+    "scripts": [
+      "lib/browser-polyfill.js",
+      "background.js"
+    ]
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "chromeos": "Alt+Shift+D",
+        "linux": "Alt+Shift+D",
+        "mac": "Alt+Shift+D",
+        "windows": "Alt+Shift+D"
+      }
+    }
+  }
+}

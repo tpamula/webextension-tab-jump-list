@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+    <script type="text/javascript" src="lib/browser-polyfill.js"></script>
+
+</head>
+
+<body>
+	<div>
+		<h3 style="white-space:nowrap; text-align:center;">Tab Jump List</h3>
+		<span style="white-space:nowrap;"><button id="current-tab-button" type="button">+</button> <span id="current-tab-title"></span></span>
+	</div>
+	<hr />
+	<div>
+		<ol style="padding-left: 1em;" id="saved-tabs"></ol>
+		<span style="font-size: 0.8em; text-decoration:underline; text-decoration-style: dotted;" title="Shortcuts:&#xA;* [Alt+Shift+D] - open Tab Jump List popup&#xA;In popup:&#xA;* [s] or [d] - save current page&#xA;* [1-9] - jump to selected tab">Shortcuts</span>
+	</div>
+
+	<script src="popup.js" type="module"></script>
+</body>
+
+</html>
