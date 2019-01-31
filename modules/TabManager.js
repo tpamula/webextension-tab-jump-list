@@ -56,8 +56,8 @@ export default class TabManager {
       });
     });
 
-    document.addEventListener(events.savedTabCheckboxToggled, (e) => {
-      if (!e.detail.checked) this.remove(parseInt(e.detail.tabId, 10));
+    document.addEventListener(events.savedTabRemovalTriggered, (e) => {
+      this.remove(parseInt(e.detail.tabId, 10));
     });
   }
 

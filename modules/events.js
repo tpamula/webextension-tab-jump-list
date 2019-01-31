@@ -2,7 +2,7 @@
 export const events = {
   contentChanged: 'contentChanged',
   currentTabAddTriggered: 'currentTabAddTriggered',
-  savedTabCheckboxToggled: 'savedTabCheckboxToggled',
+  savedTabRemovalTriggered: 'savedTabRemovalTriggered',
   tabClicked: 'tabClicked',
   windowCloseTriggered: 'windowCloseTriggered',
 };

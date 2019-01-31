@@ -9,7 +9,7 @@ export default class Tab {
 
   static toDomLiNode(tab) {
     const liNode = document.createElement('li');
-    const trimmedTitle = Tab.trimTitle(tab.title);
+    const trimmedTitle = Tab.truncateTitle(tab.title);
     liNode.innerHTML = `<span style="white-space: nowrap; cursor: pointer;"><input type="checkbox" class="saved-tab-checkbox" checked /> <span class="title">${trimmedTitle}</span> ${tab.description}</span>`;
     liNode.setAttribute('tab-id', tab.id);
 
@@ -26,20 +26,19 @@ export default class Tab {
     const checkbox = liNode.getElementsByClassName('saved-tab-checkbox')[0];
 
     checkbox.onchange = () => {
-      const savedTabCheckboxToggledEvent = new CustomEvent(events.savedTabCheckboxToggled, {
+      const savedTabRemovalTriggeredEvent = new CustomEvent(events.savedTabRemovalTriggered, {
         detail: {
           tabId: tab.id,
-          checked: checkbox.checked,
         },
       });
 
-      document.dispatchEvent(savedTabCheckboxToggledEvent);
+      document.dispatchEvent(savedTabRemovalTriggeredEvent);
     };
 
     return liNode;
   }
 
-  static trimTitle(title) {
+  static truncateTitle(title) {
     const maxTitleChars = 65;
 
     return title.length > maxTitleChars

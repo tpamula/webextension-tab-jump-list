@@ -4,7 +4,7 @@ import Tab from './Tab.js';
 
 export default class Presenter {
   static initialize() {
-    Presenter._setCurrentTabTitle();
+    Presenter._setCurrentTabTitleDisplay();
     Presenter._addDispatchers();
     Presenter._addListeners();
   }
@@ -24,13 +24,6 @@ export default class Presenter {
     currentTabButton.onclick = () => {
       document.dispatchEvent(new Event(events.currentTabAddTriggered));
     };
-
-    window.addEventListener('keydown', (event) => {
-      const addTabShortcuts = ['s', 'd'];
-      if (addTabShortcuts.includes(event.key)) {
-        document.dispatchEvent(new Event(events.currentTabAddTriggered));
-      }
-    });
   }
 
   static _addListeners() {
@@ -40,14 +33,35 @@ export default class Presenter {
 
     document.addEventListener(events.windowCloseTriggered, () => window.close());
 
-    for (let i = 1; i <= 9; i += 1) {
-      window.addEventListener('keydown', (event) => {
-        if (event.key === i.toString()) {
-          const tabId = parseInt(document.getElementsByTagName('li')[i - 1].getAttribute('tab-id'), 10);
+    window.addEventListener('keydown', (event) => {
+      const addTabShortcuts = ['s', 'd'];
+      if (addTabShortcuts.includes(event.key)) {
+        document.dispatchEvent(new Event(events.currentTabAddTriggered));
+      }
+    });
+
+    const dispatchRemovalTabTriggered = (tabId) => {
+      const savedTabRemovalTriggeredEvent = new CustomEvent(events.savedTabRemovalTriggered, {
+        detail: {
+          tabId,
+        },
+      });
+      document.dispatchEvent(savedTabRemovalTriggeredEvent);
+    };
+    const numberKeyboardEventCodes = Array.from(Array(9).keys()).map(number => `Digit${number + 1}`);
+    window.addEventListener('keydown', (event) => {
+      if (numberKeyboardEventCodes.includes(event.code)) {
+        const numberPressed = parseInt(event.code.slice(-1), 10);
+        const tabNodes = document.getElementsByTagName('li');
+        if (tabNodes.length <= numberPressed - 1) return;
+        const tabId = parseInt(tabNodes[numberPressed - 1].getAttribute('tab-id'), 10);
+        if (event.shiftKey) {
+          dispatchRemovalTabTriggered(tabId);
+        } else {
           Presenter.switchTab(tabId, true);
         }
-      });
-    }
+      }
+    });
   }
 
   static _clearCurrentPresentation() {
@@ -61,11 +75,11 @@ export default class Presenter {
     });
   }
 
-  static _setCurrentTabTitle() {
+  static _setCurrentTabTitleDisplay() {
     BrowserWrapper.getCurrentTabAsync()
-      .then((val) => {
-        const trimmedTitle = Tab.trimTitle(val.title);
-        document.getElementById('current-tab-title').innerHTML = trimmedTitle;
+      .then((currentTab) => {
+        const truncatedTitle = Tab.truncateTitle(currentTab.title);
+        document.getElementById('current-tab-title').innerHTML = truncatedTitle;
       });
   }
 }

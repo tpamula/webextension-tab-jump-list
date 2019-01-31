@@ -1,5 +1,3 @@
-import { events } from './events.js';
-
 export default class BrowserWrapper {
   static activateTab(tabId) {
     browser.tabs.update(tabId, { active: true });
