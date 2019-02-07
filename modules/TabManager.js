@@ -28,7 +28,7 @@ export default class TabManager {
     this._tabList = new TabList();
 
     this._initializeTabs();
-    this._addListeners();
+    this._configureEvents();
   }
 
   remove(tabId) {
@@ -49,7 +49,7 @@ export default class TabManager {
     this._contentChanged();
   }
 
-  _addListeners() {
+  _configureEvents() {
     document.addEventListener(events.currentTabAddTriggered, () => {
       this.saveCurrentTabAsync().then(() => {
         document.dispatchEvent(new Event(events.windowCloseTriggered));

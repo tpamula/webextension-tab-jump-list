@@ -5,8 +5,7 @@ import Tab from './Tab.js';
 export default class Presenter {
   static initialize() {
     Presenter._setCurrentTabTitleDisplay();
-    Presenter._addDispatchers();
-    Presenter._addListeners();
+    Presenter._configureEvents();
   }
 
   static reload(tabs) {
@@ -19,14 +18,7 @@ export default class Presenter {
     if (closeWindow) window.close();
   }
 
-  static _addDispatchers() {
-    const currentTabButton = document.getElementById('current-tab-button');
-    currentTabButton.onclick = () => {
-      document.dispatchEvent(new Event(events.currentTabAddTriggered));
-    };
-  }
-
-  static _addListeners() {
+  static _configureEvents() {
     document.addEventListener(events.contentChanged, e => Presenter.reload(e.detail.tabs));
 
     document.addEventListener(events.tabClicked, e => Presenter.switchTab(e.detail.tabId));
@@ -39,6 +31,11 @@ export default class Presenter {
         document.dispatchEvent(new Event(events.currentTabAddTriggered));
       }
     });
+
+    const currentTabButton = document.getElementById('current-tab-button');
+    currentTabButton.onclick = () => {
+      document.dispatchEvent(new Event(events.currentTabAddTriggered));
+    };
 
     const dispatchRemovalTabTriggered = (tabId) => {
       const savedTabRemovalTriggeredEvent = new CustomEvent(events.savedTabRemovalTriggered, {
